@@ -1,7 +1,9 @@
 package com.example.laboratorio4.controller;
 
 
+import com.example.laboratorio4.entity.Departments;
 import com.example.laboratorio4.entity.Employees;
+import com.example.laboratorio4.repository.DepartmentsRepository;
 import com.example.laboratorio4.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -18,6 +21,9 @@ public class SearchController {
 
     @Autowired
     EmployeesRepository employeesRepository;
+
+    @Autowired
+    DepartmentsRepository departmentsRepository;
 
     @GetMapping(value = {"","/"})
     public String indice(){
@@ -28,18 +34,17 @@ public class SearchController {
     public String listaEmpleadosMayorSalrio (Model model,
                                              @RequestParam(value = "searchField", defaultValue = "") String searchField){
 
-        BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
+        List<Employees> employeesList;
 
-
-        // if doesnt equals
-        //List<Employees> employeesList = employeesRepository.findAllBySalaryEquals(salary);
-        List<Employees> employeesList = employeesRepository.findAll();
-
-        for (Employees employees: employeesList){
-            System.out.println(employees.getSalary());
+        if(searchField.isEmpty()){
+            employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
+        } else{
+            BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
+            employeesList = employeesRepository.findAllBySalaryEqualsAndSalaryGreaterThan(salary, BigDecimal.valueOf(8000));
         }
 
-      //COMPLETAR
+        model.addAttribute("employeesList", employeesList);
+
         return "Search/lista2";
     }
 
@@ -57,7 +62,18 @@ public class SearchController {
     @GetMapping(value = "/Filtro2")
     public String cantidadEmpleadosPorPais (){
 
-        //COMPLETAR
+        // obtener los departamentos
+        List<Departments> departments = departmentsRepository.findAll();
+
+        for (Departments departments1 : departments){
+            int departmentid = departments1.getId();
+
+            HashMap<String, String> departmentInfo = new HashMap<String, String>();
+            departmentInfo.put("name", departments1.getDepartmentname());
+            departmentInfo.put("id",String.valueOf(departments1.getId()));
+
+        }
+
         return "/Search/salario";
     }
 

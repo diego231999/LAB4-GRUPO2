@@ -11,5 +11,8 @@ import java.util.List;
 public interface EmployeesRepository extends JpaRepository<Employees,Integer> {
 
 
-    List<Employees> findAllBySalaryEquals(BigDecimal salary);
+    List<Employees> findAllBySalaryEqualsAndSalaryGreaterThan(BigDecimal salary, BigDecimal minSalary);
+    List<Employees> findAllBySalaryGreaterThan(BigDecimal salary);
+
+    Employees findEmployeesBy
 }

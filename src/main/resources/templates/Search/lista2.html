@@ -36,10 +36,24 @@
     <!-- COMPLETAR -->
     <table class="table">
         <thead>
-        <!-- COMPLETAR -->
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Fecha de Inicio</th>
+                <th scope="col">Fecha Fin</th>
+                <th scope="col">Puesto</th>
+            </tr>
         </thead>
         <tbody>
-        <!-- COMPLETAR -->
+        <tr th:each="employee, vEst : ${employeesList}">
+
+            <th scope="row" th:text="${vEst.index}"></th>
+            <td th:text="${employee.getFirstname()}"></td>
+            <td th:text="${employee.getLastname()}"></td>
+            <td th:text="${employee.getHiredate()}"></td>
+            <td th:text="${employee.getJobs().getJobtitle()}"></td>
+
+        </tr>
         </tbody>
     </table>
 </div>

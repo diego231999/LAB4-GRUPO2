@@ -48,36 +48,36 @@ public class EmployeeController {
     }
 
 
-    @PostMapping("/save")
-    public String guardarEmployee(@ModelAttribute("employees") @Valid Employees employees, BindingResult bindingResult,
-                                  RedirectAttributes attr,
-                                  @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
-        if(bindingResult.hasErrors()){
-            model.addAttribute("listaJobs", jobsRepository.findAll());
-            model.addAttribute("listaJefes", employeesRepository.findAll());
-            model.addAttribute("listaDepartments", departmentsRepository.findAll());
-            return "employee/Frm";
-        }else {
-
-            if (employees.getEmployeeid() == 0) {
-                attr.addFlashAttribute("msg", "Empleado creado exitosamente");
-                employees.setHiredate(LocalDateTime.now());
-                employeesRepository.save(employees);
-                return "redirect:/employee";
-            } else {
-
-                try {
-                    employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                employeesRepository.save(employees);
-                attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-                return "redirect:/employee";
-            }
-        }
-    }
+//    @PostMapping("/save")
+//    public String guardarEmployee(@ModelAttribute("employees") @Valid Employees employees, BindingResult bindingResult,
+//                                  RedirectAttributes attr,
+//                                  @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
+//        if(bindingResult.hasErrors()){
+//            model.addAttribute("listaJobs", jobsRepository.findAll());
+//            model.addAttribute("listaJefes", employeesRepository.findAll());
+//            model.addAttribute("listaDepartments", departmentsRepository.findAll());
+//            return "employee/Frm";
+//        }else {
+//
+//            if (employees.getEmployeeid() == 0) {
+//                attr.addFlashAttribute("msg", "Empleado creado exitosamente");
+//                employees.setHiredate(LocalDateTime.now());
+//                employeesRepository.save(employees);
+//                return "redirect:/employee";
+//            } else {
+//
+//                try {
+//                    employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                employeesRepository.save(employees);
+//                attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
+//                return "redirect:/employee";
+//            }
+//        }
+//    }
 
 //    @GetMapping("/edit")
 //    public String editarEmployee() {

@@ -3,9 +3,7 @@ package com.example.laboratorio4.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
