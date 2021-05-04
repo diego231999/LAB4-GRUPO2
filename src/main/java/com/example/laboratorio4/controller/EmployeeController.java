@@ -14,6 +14,7 @@ import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class EmployeeController {
 
             if (employees.getEmployeeid() == 0) {
                 attr.addFlashAttribute("msg", "Empleado creado exitosamente");
-                employees.setHiredate(new Date());
+                employees.setHiredate(LocalDateTime.now());
                 employeesRepository.save(employees);
                 return "redirect:/employee";
             } else {
