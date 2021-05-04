@@ -9,10 +9,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body class="container">
-<h2 th:text="${employeee.employeeid == 0? 'Nuevo Employee' : 'Editar Employeee'}">Nuevo/Editar Employee</h2>
+<h2 th:text="${employees.employeeid == 0? 'Nuevo Employee' : 'Editar Employeee'}">Nuevo/Editar Employee</h2>
 <hr/>
 
-<form method="post" th:action="@{/employee/save}" th:object="${employee}">
+<form method="post" th:action="@{/employee/save}" th:object="${employees}">
     <input type="hidden" th:field="*{employeeid}" />
     <div class="form-row">
         <div class="col-md-8 mb-4">
@@ -46,27 +46,27 @@
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Cargo</label>
-                <select class="form-select" name="jobid" id="jobid">
-                    <option th:each="cargo : ${listaCargos}" th:value="${employee.jobs.jobid}"
-                            th:text="${employee.jobs.jobtitle}"></option>
+                <select class="form-control" th:field="*{jobs.jobid}">
+                    <option th:each="cargo : ${listaJobs}" th:value="${cargo.jobid}"
+                            th:text="${cargo.jobtitle}"></option>
                 </select>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Jefe</label>
-                <select class="form-select" name="managerid" id="managerid">
-                    <option th:each="jefe : ${listaJefes}" th:value="${jefe.manager.}"
-                            th:text="${employee.employee.firstname}"></option>
+                <select class="form-control" th:field="*{manager.employeeid}">
+                    <option th:each="jefe : ${listaJefes}" th:value="${jefe.employeeid}"
+                            th:text="${jefe.firstname}"></option>
                 </select>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Departamento</label>
-                <select class="form-select" name="department_id" id="department_id">
-                    <option th:each="dpto : ${listaDpto}" th:value="${employee.departments.departmentid}"
-                            th:text="${employee.departments.departmentname}"></option>
+                <select class="form-control" th:field="*{departments.id}">
+                    <option th:each="dpto : ${listaDepartments}" th:value="${dpto.id}"
+                            th:text="${dpto.departmentname}"></option>
                 </select>
             </div>
         </div>

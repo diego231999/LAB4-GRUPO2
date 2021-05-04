@@ -1,5 +1,6 @@
 package com.example.laboratorio4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,11 +14,12 @@ import java.time.LocalDateTime;
 public class Employees {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "employee_id")
     private int employeeid;
 
     @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(name = "first_name")
     private String firstname;
 
@@ -29,24 +31,29 @@ public class Employees {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "El email no puede estar vacío")
     @Size(max = 25, message = "Ingrese como máximo 25 caractéres")
+    @Pattern(regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", message = "El formato debe ser: nombre@dominio.com")
+   // @Email(message = "El formato debe ser: nombre@dominio.com")
     private String email;
 
     @Size(max = 65, min = 8, message = "Ingrese como máximo 65 caractéres y como mínimo 8 carácteres")
     private String password;
 
-    @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
+   /* @Size(max = 20, message = "Ingrese como máximo 20 caractéres") */
     @Column(name = "phone_number")
     private String phonenumber;
 
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Jobs jobs;
-    //private Departments departments;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Departments departments;
+
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Employees manager;
 
-    @Positive
     private int enabled;
 
     @Digits(integer = 8, fraction = 2, message = "Ingrese un valor con 2 decimales y un máximo de 8 digitos")
@@ -56,6 +63,14 @@ public class Employees {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "hire_date")
     private LocalDateTime hiredate;
+
+    public Departments getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Departments departments) {
+        this.departments = departments;
+    }
 
     public int getEmployeeid() {
         return employeeid;

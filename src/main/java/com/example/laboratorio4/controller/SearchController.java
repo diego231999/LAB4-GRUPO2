@@ -14,7 +14,7 @@ public class SearchController {
         return "Search/indice";
     }
 
-    @GetMapping(value = {"/Salario"})
+   /* @GetMapping(value = {"/Salario"})
     public String listaEmpleadosMayorSalrio (){
 
       //COMPLETAR
@@ -40,6 +40,6 @@ public class SearchController {
         return "/Search/lista3";
 
     }
-
+*/
 
 }

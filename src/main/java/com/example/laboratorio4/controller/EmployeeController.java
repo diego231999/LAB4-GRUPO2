@@ -10,12 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -55,7 +53,8 @@ public class EmployeeController {
             model.addAttribute("listaJobs", jobsRepository.findAll());
             model.addAttribute("listaJefes", employeesRepository.findAll());
             model.addAttribute("listaDepartments", departmentsRepository.findAll());
-            return "employee/Frm";
+
+            return "employee/form";
         }else {
 
             if (employees.getEmployeeid() == 0) {
@@ -65,11 +64,13 @@ public class EmployeeController {
                 return "redirect:/employee";
             } else {
 
-                try {
-                    employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
+                /*try {
+                    SimpleDateFormat format = new SimpleDateFormat();
+
+                    employees.setHiredate(format.parse(fechaContrato));
                 } catch (ParseException e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
@@ -78,11 +79,11 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/edit")
+   /* @GetMapping("/edit")
     public String editarEmployee() {
 
         //COMPLETAR
-    }
+    }*/
 
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
@@ -99,10 +100,10 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/search")
+  /*  @PostMapping("/search")
     public String buscar (){
 
         //COMPLETAR
-    }
+    }*/
 
 }
