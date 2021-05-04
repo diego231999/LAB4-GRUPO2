@@ -16,13 +16,24 @@
         <table class="table">
         <thead>
         <tr>
-            <!-- COMPLETAR-->
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cargo</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Años trabajados</th>
+            <th>Meses trabajados</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="historia : ${listaHistorial}">
-        <!-- COMPLETAR-->
-        </tr>
+        <tr th:each="empleados : ${listaEmpleados}">
+            <td th:text="${empleados.getFirst_name()}"></td>
+            <td th:text="${empleados.getLast_name()}"></td>
+            <td th:text="${empleados.getJob_title()}"></td>
+            <td th:text="${empleados.getInicio()}"></td>
+            <td th:text="${empleados.getFin()}"></td>
+            <td th:text="${empleados.getAnios()}"></td>
+            <td th:text="${empleados.getMeses()}"></td>
         </tbody>
     </table>
 </div>

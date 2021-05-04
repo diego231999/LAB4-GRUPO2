@@ -25,7 +25,7 @@ public class SearchController {
     public String buscar (){
 
         //COMPLETAR
-    }
+    return "xd";}
 
     @GetMapping(value = "/Filtro2")
     public String cantidadEmpleadosPorPais (){

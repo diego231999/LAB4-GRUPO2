@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.jws.WebParam;
 import javax.validation.Valid;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -64,11 +65,11 @@ public class EmployeeController {
                 employeesRepository.save(employees);
                 return "redirect:/employee/list";
             } else {
-
-                try {
-                    employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                //try {
+                    //employees.setHiredate(new DateTime.parse(fechaContrato));
+                //} catch (ParseException e) {
+                  //  e.printStackTrace();
+                System.out.println("xd2");
                 }
 
                 employeesRepository.save(employees);
@@ -76,7 +77,7 @@ public class EmployeeController {
                 return "redirect:/employee/list";
             }
         }
-    }
+
 
     @GetMapping("/edit")
     public String editarEmployee(@ModelAttribute("employees") Employees employees, @RequestParam("employeeid") int id,
@@ -89,10 +90,7 @@ public class EmployeeController {
         } else {
             return "redirect:/employee/list";
         }
-
-
     }
-
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
                                       @RequestParam("id") int id,
@@ -105,13 +103,11 @@ public class EmployeeController {
             attr.addFlashAttribute("msg","Empleado borrado exitosamente");
         }
         return "redirect:/employee/list";
-
     }
-
     @PostMapping("/search")
     public String buscar (){
 
         //COMPLETAR
-    }
+    return "xd";}
 
 }
