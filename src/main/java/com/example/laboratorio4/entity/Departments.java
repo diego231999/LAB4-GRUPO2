@@ -1,6 +1,7 @@
 package com.example.laboratorio4.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="departments")

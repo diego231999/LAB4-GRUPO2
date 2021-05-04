@@ -9,11 +9,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body class="container">
-<h2 th:text="${employeee.employeeid == 0? 'Nuevo Employee' : 'Editar Employeee'}">Nuevo/Editar Employee</h2>
+<h2 th:text="${employees.employeeid == 0? 'Nuevo Employee' : 'Editar Employeee'}">Nuevo/Editar Employee</h2>
 <hr/>
 
-<form method="post" th:action="@{/employee/save}" th:object="${employee}">
-    <input type="hidden" th:field="*{employeeid}" />
+<form method="post" th:action="@{/employee/save}" th:object="${employees}">
+    <input th:if="*{employeeid != 0 }" type="hidden" th:field="*{employeeid}" />
+    <input th:if="*{employeeid != 0 }" type="hidden" th:field="*{hiredate}" />
     <div class="form-row">
         <div class="col-md-8 mb-4">
             <div class="form-group">
@@ -39,34 +40,38 @@
         <div class="col-md-8 mb-4">
             <div class="form-group">
                 <label  class="small mb-1">Contraseña</label>
-                <input class="form-control" th:field="*{password}">
-                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+                <!-- error con la clase type="password" el atributo no funciona con el th:field no funciona el model attributo-->
+                <input  th:if="*{employeeid != 0}" class="form-control"
+                        th:field="*{pwd}"
+                        type="password" >
+                <input  th:if="*{employeeid == 0}" class="form-control" th:field="*{pwd}">
+                <div class="text-danger" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}">Error</div>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Cargo</label>
-                <select class="form-select" name="jobid" id="jobid">
-                    <option th:each="cargo : ${listaCargos}" th:value="${employee.jobs.jobid}"
-                            th:text="${employee.jobs.jobtitle}"></option>
+                <select class="form-control" th:field="*{jobs.jobid}">
+                    <option th:each="cargo : ${listaJobs}" th:value="${cargo.jobid}"
+                            th:text="${cargo.jobtitle}"></option>
                 </select>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Jefe</label>
-                <select class="form-select" name="managerid" id="managerid">
-                    <option th:each="jefe : ${listaJefes}" th:value="${jefe.manager.}"
-                            th:text="${employee.employee.firstname}"></option>
+                <select class="form-control" th:field="*{manager.employeeid}">
+                    <option th:each="jefe : ${listaJefes}" th:value="${jefe.employeeid}"
+                            th:text="${jefe.firstname}"></option>
                 </select>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="mb-3">
                 <label class="form-label">Departamento</label>
-                <select class="form-select" name="department_id" id="department_id">
-                    <option th:each="dpto : ${listaDpto}" th:value="${employee.departments.departmentid}"
-                            th:text="${employee.departments.departmentname}"></option>
+                <select class="form-control" th:field="*{departments.id}">
+                    <option th:each="dpto : ${listaDepartments}" th:value="${dpto.id}"
+                            th:text="${dpto.departmentname}"></option>
                 </select>
             </div>
         </div>
@@ -75,11 +80,12 @@
                 <label  class="small mb-1">Sueldo</label>
                 <input class="form-control" th:field="*{salary}">
                 <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Error</div>
+                <div class="text-danger" th:if="${msgSal != null}" th:text="${msgSal}">Error</div>
             </div>
         </div>
         <div class="form-group mt-4">
             <a th:href="@{/employee/list}" class="btn btn-danger">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button th:text="${employees.getEmployeeid() == 0 ? 'Registrar' : 'Editar'}" type="submit" class="btn btn-primary"></button>
         </div>
     </div>
 </form>
