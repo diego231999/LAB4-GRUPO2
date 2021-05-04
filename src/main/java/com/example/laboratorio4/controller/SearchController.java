@@ -32,15 +32,28 @@ public class SearchController {
 
     @GetMapping(value = {"/Salario"})
     public String listaEmpleadosMayorSalrio (Model model,
-                                             @RequestParam(value = "searchField", defaultValue = "") String searchField){
+                                             @RequestParam(value = "searchField", defaultValue = "") String searchField,
+                                             RedirectAttributes attributes){
 
         List<Employees> employeesList;
 
         if(searchField.isEmpty()){
             employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
+            model.addAttribute("msg", null);
         } else{
-            BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
-            employeesList = employeesRepository.findAllBySalaryEqualsAndSalaryGreaterThan(salary, BigDecimal.valueOf(8000));
+
+            try{
+                BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
+                employeesList = employeesRepository.findAllBySalaryEqualsAndSalaryGreaterThan(salary, BigDecimal.valueOf(8000));
+                model.addAttribute("msg", null);
+
+            }catch (Exception e){
+                employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
+                model.addAttribute("msg", "El valor ingresado debe ser un numero");
+
+            }
+
+
         }
 
         model.addAttribute("employeesList", employeesList);
