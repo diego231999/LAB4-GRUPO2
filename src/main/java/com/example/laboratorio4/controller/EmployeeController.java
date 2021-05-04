@@ -54,14 +54,14 @@ public class EmployeeController {
             model.addAttribute("listaJobs", jobsRepository.findAll());
             model.addAttribute("listaJefes", employeesRepository.findAll());
             model.addAttribute("listaDepartments", departmentsRepository.findAll());
-            return "employee/Frm";
+            return "employee/form";
         }else {
 
             if (employees.getEmployeeid() == 0) {
                 attr.addFlashAttribute("msg", "Empleado creado exitosamente");
                 employees.setHiredate(new Date());
                 employeesRepository.save(employees);
-                return "redirect:/employee";
+                return "redirect:/employee/list";
             } else {
 
                 try {
@@ -72,15 +72,24 @@ public class EmployeeController {
 
                 employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-                return "redirect:/employee";
+                return "redirect:/employee/list";
             }
         }
     }
 
     @GetMapping("/edit")
-    public String editarEmployee() {
+    public String editarEmployee(@ModelAttribute("employees") Employees employees, @RequestParam("employeeid") int id,
+                                 Model model) {
+        Optional<Employees> employeesOptional = employeesRepository.findById(id);
+        if (employeesOptional.isPresent()) {
+            employees = employeesOptional.get();
+            model.addAttribute("employee", employees);
+            return "/employee/form";
+        } else {
+            return "redirect:/employee/list";
+        }
 
-        //COMPLETAR
+
     }
 
     @GetMapping("/delete")
@@ -94,7 +103,7 @@ public class EmployeeController {
             employeesRepository.deleteById(id);
             attr.addFlashAttribute("msg","Empleado borrado exitosamente");
         }
-        return "redirect:/employee";
+        return "redirect:/employee/list";
 
     }
 
