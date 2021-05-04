@@ -31,7 +31,7 @@ public class EmployeeController {
     @Autowired
     DepartmentsRepository departmentsRepository;
 
-    @GetMapping(value = {"","/"})
+    @GetMapping(value = {"","/list"})
     public String listaEmployee(Model model){
         model.addAttribute("listaEmployee", employeesRepository.findAll());
         model.addAttribute("listaJobs", jobsRepository.findAll());
@@ -40,16 +40,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm() {
-        //COMPLETAR
-        return "employee/Frm";
+    public String nuevoEmployeeForm(@ModelAttribute("employees")  Employees employees, Model model) {
+        model.addAttribute("listaJobs", jobsRepository.findAll());
+        model.addAttribute("listaJefes", employeesRepository.findAll());
+        model.addAttribute("listaDepartments", departmentsRepository.findAll());
+        return "employee/form";
     }
 
     @PostMapping("/save")
     public String guardarEmployee(@ModelAttribute("employees") @Valid Employees employees, BindingResult bindingResult,
                                   RedirectAttributes attr,
                                   @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
-
         if(bindingResult.hasErrors()){
             model.addAttribute("listaJobs", jobsRepository.findAll());
             model.addAttribute("listaJefes", employeesRepository.findAll());
