@@ -13,7 +13,8 @@
 <hr/>
 
 <form method="post" th:action="@{/employee/save}" th:object="${employees}">
-    <input type="hidden" th:field="*{employeeid}" />
+    <input th:if="*{employeeid != 0 }" type="hidden" th:field="*{employeeid}" />
+    <input th:if="*{employeeid != 0 }" type="hidden" th:field="*{hiredate}" />
     <div class="form-row">
         <div class="col-md-8 mb-4">
             <div class="form-group">
@@ -39,8 +40,12 @@
         <div class="col-md-8 mb-4">
             <div class="form-group">
                 <label  class="small mb-1">Contraseña</label>
-                <input class="form-control" th:field="*{password}">
-                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+                <!-- error con la clase type="password" el atributo no funciona con el th:field no funciona el model attributo-->
+                <input  th:if="*{employeeid != 0}" class="form-control"
+                        th:field="*{pwd}"
+                        type="password" >
+                <input  th:if="*{employeeid == 0}" class="form-control" th:field="*{pwd}">
+                <div class="text-danger" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}">Error</div>
             </div>
         </div>
         <div class="col-md-8 mb-4">
@@ -79,7 +84,7 @@
         </div>
         <div class="form-group mt-4">
             <a th:href="@{/employee/list}" class="btn btn-danger">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button th:text="${employees.getEmployeeid() == 0 ? 'Registrar' : 'Editar'}" type="submit" class="btn btn-primary"></button>
         </div>
     </div>
 </form>

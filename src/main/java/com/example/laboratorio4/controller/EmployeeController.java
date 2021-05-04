@@ -51,12 +51,12 @@ public class EmployeeController {
     public String guardarEmployee(@ModelAttribute("employees") @Valid Employees employees, BindingResult bindingResult,
                                   RedirectAttributes attr,
                                   @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("listaJobs", jobsRepository.findAll());
             model.addAttribute("listaJefes", employeesRepository.findAll());
             model.addAttribute("listaDepartments", departmentsRepository.findAll());
             return "employee/form";
-        }else {
+        } else {
 
             if (employees.getEmployeeid() == 0) {
                 attr.addFlashAttribute("msg", "Empleado creado exitosamente");
@@ -64,34 +64,53 @@ public class EmployeeController {
                 employeesRepository.save(employees);
                 return "redirect:/employee/list";
             } else {
+                /* Hay que validar que se haya cambiado el cargo, para esto se buscará en base al
+                id, el cargo del empleado. Por lo que si encuentra su nombre y su cargo es igual al
+                mismo que ingresa en el form, la hire_date no cambiara y será la misma. En cambio si no
+                quiere decir que cambio de empleo por lo que debera actualizarla
+                 */
+                Optional<Employees> employeesOptional = employeesRepository.findById(employees.getEmployeeid());
 
-                /*try {
-                    SimpleDateFormat format = new SimpleDateFormat();
+                if(employeesOptional.isPresent()){
+                    // Se llama al employee con el que se validará
+                    Employees employeesVal = employeesOptional.get();
 
-                    employees.setHiredate(format.parse(fechaContrato));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }*/
+                    if(employeesVal.getJobs().getJobid().equals(employees.getJobs().getJobid())){
+                        employees.setHiredate(employees.getHiredate());
+                    }else{
+                        employees.setHiredate(LocalDateTime.now());
+                    }
+
+                }
 
                 employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
                 return "redirect:/employee/list";
             }
         }
+    }
+
 
 
     @GetMapping("/edit")
-    public String editarEmployee(@ModelAttribute("employees") Employees employees, @RequestParam("employeeid") int id,
+    public String editarEmployee(@ModelAttribute("employees") Employees employees,
+                                    @RequestParam("id") int id,
                                  Model model) {
         Optional<Employees> employeesOptional = employeesRepository.findById(id);
         if (employeesOptional.isPresent()) {
             employees = employeesOptional.get();
-            model.addAttribute("employee", employees);
+            model.addAttribute("employees", employees);
+            model.addAttribute("listaJobs", jobsRepository.findAll());
+            model.addAttribute("listaJefes", employeesRepository.findAll());
+            model.addAttribute("listaDepartments", departmentsRepository.findAll());
             return "/employee/form";
         } else {
             return "redirect:/employee/list";
         }
     }
+
+
+
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
                                       @RequestParam("id") int id,

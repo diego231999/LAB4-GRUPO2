@@ -20,7 +20,6 @@ public class Employees {
     private int employeeid;
 
     @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
-    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(name = "first_name")
     private String firstname;
 
@@ -37,7 +36,9 @@ public class Employees {
     private String email;
 
     @Size(max = 65, min = 8, message = "Ingrese como máximo 65 caractéres y como mínimo 8 carácteres")
-    private String password;
+    @Column(name = "password")
+    @NotBlank(message = "No puede ser vacío o blanco")
+    private String pwd;
 
    /* @Size(max = 20, message = "Ingrese como máximo 20 caractéres") */
     @Column(name = "phone_number")
@@ -105,12 +106,12 @@ public class Employees {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public String getPhonenumber() {
