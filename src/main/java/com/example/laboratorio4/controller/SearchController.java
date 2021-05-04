@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/Search")
@@ -60,26 +61,15 @@ public class SearchController {
     }
 
     @GetMapping(value = "/Filtro2")
-    public String cantidadEmpleadosPorPais (){
+    public String cantidadEmpleadosPorPais (Model model){
 
-        // obtener los departamentos
-        List<Departments> departments = departmentsRepository.findAll();
-
-        for (Departments departments1 : departments){
-            int departmentid = departments1.getId();
-
-            HashMap<String, String> departmentInfo = new HashMap<String, String>();
-            departmentInfo.put("name", departments1.getDepartmentname());
-            departmentInfo.put("id",String.valueOf(departments1.getId()));
-
-        }
-
+        model.addAttribute("reporteSalarioPromedio",  departmentsRepository.reporteSalarioPromedio());
         return "/Search/salario";
     }
 
     @GetMapping("/listar")
-    public String listarEmpleadoDep() {
-        //COMPLETAR
+    public String listarEmpleadoDep(@RequestParam("id") int id, Model model) {
+        model.addAttribute("listaEmpleadosXDep", employeesRepository.reporteEmpleadosPorDepartamentos(id));
         return "/Search/lista3";
 
     }

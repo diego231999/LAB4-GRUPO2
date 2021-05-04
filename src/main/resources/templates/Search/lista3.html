@@ -8,18 +8,31 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>Lista de Empleados</title>
 </head>
-    <body>
-        <div class="container">
-        <h1>Empleados por Departamento</h1>
-            <table class="table">
-                <thead>
-                <!-- COMPLETAR -->
-                </thead>
-                <tbody>
-                <!-- COMPLETAR -->
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+<body>
+<div class="container">
+    <h1>Empleados por Departamento</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cargo</th>
+            <th>Sueldo</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${listaEmpleadosXDep}">
+            <td th:text="${employee.getEmployee_id()}"></td>
+            <td th:text="${employee.getFirst_name()}"></td>
+            <td th:text="${employee.getLast_name()}"></td>
+            <td th:text="${employee.getJob_title()}"></td>
+            <td th:text="${employee.getSalario()}"></td>
+            <td><a class="btn btn-primary" th:href="@{'/employee/edit?id='+${employee.getEmployee_id()}}">Editar</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
 </html>

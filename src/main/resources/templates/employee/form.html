@@ -80,6 +80,7 @@
                 <label  class="small mb-1">Sueldo</label>
                 <input class="form-control" th:field="*{salary}">
                 <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Error</div>
+                <div class="text-danger" th:if="${msgSal != null}" th:text="${msgSal}">Error</div>
             </div>
         </div>
         <div class="form-group mt-4">

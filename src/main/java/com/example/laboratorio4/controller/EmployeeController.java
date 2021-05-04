@@ -3,6 +3,7 @@ import com.example.laboratorio4.entity.Employees;
 import com.example.laboratorio4.repository.DepartmentsRepository;
 import com.example.laboratorio4.repository.EmployeesRepository;
 import com.example.laboratorio4.repository.JobsRepository;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -82,8 +85,13 @@ public class EmployeeController {
                     }
 
                 }
+               /* try{
+                    employeesRepository.save(employees);
+                }catch (MysqlDat e){
+                    model.addAttribute("msgSal","No puede ingreser un salario mayor a 8 decimales");
+                    return "/employee/form";
+                }*/
 
-                employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
                 return "redirect:/employee/list";
             }

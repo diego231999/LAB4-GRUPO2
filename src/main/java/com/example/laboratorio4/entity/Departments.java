@@ -19,9 +19,6 @@ public class Departments {
     @JoinColumn(name = "location_id")
     private Locations locationid;
 
-    @OneToMany(mappedBy = "departments")
-    List<Employees> listaEmpleadosPorDepartamentos;
-
     public int getId() {
         return id;
     }
