@@ -1,5 +1,7 @@
 package com.example.laboratorio4.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -32,8 +34,7 @@ public class Employees {
     @Size(max = 25, message = "Ingrese como máximo 25 caractéres")
     private String email;
 
-    @Size(max = 65, min = 8, message = "Ingrese como máximo 65 caractéres")
-    @Size(min = 8, message = "Ingrese como mínimo 8 caractéres")
+    @Size(max = 65, min = 8, message = "Ingrese como máximo 65 caractéres y como mínimo 8 carácteres")
     private String password;
 
     @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
@@ -48,9 +49,16 @@ public class Employees {
     @JoinColumn(name = "manager_id")
     private Employees manager;
 
+    @Positive
     private int enabled;
+
     @Digits(integer = 8, fraction = 2, message = "Ingrese un valor con 2 decimales y un máximo de 8 digitos")
+    @Min(value = 1, message = "Tiene que ser un valor mayor que 0")
     private BigDecimal salary;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column(name = "hire_date")
+    private LocalDateTime hiredate;
 
     public int getEmployeeid() {
         return employeeid;
@@ -132,6 +140,11 @@ public class Employees {
         this.salary = salary;
     }
 
-    public void setHiredate(Date date) {
+    public LocalDateTime getHiredate() {
+        return hiredate;
+    }
+
+    public void setHiredate(LocalDateTime hiredate) {
+        this.hiredate = hiredate;
     }
 }
