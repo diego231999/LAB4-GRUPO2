@@ -2,7 +2,9 @@ package com.example.laboratorio4.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/Search")
@@ -15,16 +17,23 @@ public class SearchController {
     }
 
     @GetMapping(value = {"/Salario"})
-    public String listaEmpleadosMayorSalrio (){
+    public String listaEmpleadosMayorSalrio (Model model){
+
+
 
       //COMPLETAR
         return "Search/lista2";
     }
 
     @PostMapping("/busqueda")
-    public String buscar (){
+    public String buscar (
+            @RequestParam(value = "searchField", defaultValue = "") String searchField,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ){
 
-        //COMPLETAR
+        redirectAttributes.addAttribute("searchField", searchField);
+        return "redirect:/Search/Salario";
     }
 
     @GetMapping(value = "/Filtro2")
