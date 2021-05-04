@@ -1,15 +1,23 @@
 package com.example.laboratorio4.controller;
 
 
+import com.example.laboratorio4.entity.Employees;
+import com.example.laboratorio4.repository.EmployeesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Controller
 @RequestMapping("/Search")
 public class SearchController {
 
+    @Autowired
+    EmployeesRepository employeesRepository;
 
     @GetMapping(value = {"","/"})
     public String indice(){
@@ -17,9 +25,19 @@ public class SearchController {
     }
 
     @GetMapping(value = {"/Salario"})
-    public String listaEmpleadosMayorSalrio (Model model){
+    public String listaEmpleadosMayorSalrio (Model model,
+                                             @RequestParam(value = "searchField", defaultValue = "") String searchField){
+
+        BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
 
 
+        // if doesnt equals
+        //List<Employees> employeesList = employeesRepository.findAllBySalaryEquals(salary);
+        List<Employees> employeesList = employeesRepository.findAll();
+
+        for (Employees employees: employeesList){
+            System.out.println(employees.getSalary());
+        }
 
       //COMPLETAR
         return "Search/lista2";

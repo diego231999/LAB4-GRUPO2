@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Entity
@@ -14,13 +15,14 @@ public class Employees {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "employee_id")
     private int employeeid;
 
     @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
+    @Column(name = "first_name")
     private String firstname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "last_name")
     @NotBlank(message = "El apellido no puede estar vacío")
     @Size(max = 25, message = "Ingrese como máximo 25 caractéres")
     private String lastname;
@@ -35,6 +37,7 @@ public class Employees {
     private String password;
 
     @Size(max = 20, message = "Ingrese como máximo 20 caractéres")
+    @Column(name = "phone_number")
     private String phonenumber;
 
     @ManyToOne
@@ -127,5 +130,8 @@ public class Employees {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public void setHiredate(Date date) {
     }
 }

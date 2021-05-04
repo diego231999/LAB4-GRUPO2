@@ -46,6 +46,7 @@ public class EmployeeController {
         return "employee/form";
     }
 
+
     @PostMapping("/save")
     public String guardarEmployee(@ModelAttribute("employees") @Valid Employees employees, BindingResult bindingResult,
                                   RedirectAttributes attr,
@@ -77,11 +78,11 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/edit")
-    public String editarEmployee() {
-
-        //COMPLETAR
-    }
+//    @GetMapping("/edit")
+//    public String editarEmployee() {
+//
+//        //COMPLETAR
+//    }
 
     @GetMapping("/delete")
     public String borrarEmpleado(Model model,
@@ -98,10 +99,10 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/search")
-    public String buscar (){
-
-        //COMPLETAR
-    }
+//    @PostMapping("/search")
+//    public String buscar (){
+//
+//        //COMPLETAR
+//    }
 
 }
