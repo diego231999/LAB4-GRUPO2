@@ -36,28 +36,27 @@ public class SearchController {
                                              @RequestParam(value = "searchField", defaultValue = "") String searchField,
                                              RedirectAttributes attributes){
 
-        List<Employees> employeesList;
+        //List<Employees> employeesList;
 
         if(searchField.isEmpty()){
-            employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
+            model.addAttribute("employeesList", employeesRepository.listaEmpleadosMaxSalario());
             model.addAttribute("msg", null);
         } else{
-
             try{
-                BigDecimal salary = BigDecimal.valueOf(Long.parseLong(searchField));
-                employeesList = employeesRepository.findAllBySalaryEqualsAndSalaryGreaterThan(salary, BigDecimal.valueOf(8000));
-                model.addAttribute("msg", null);
 
-            }catch (Exception e){
-                employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
+                Double salary = Double.valueOf(searchField);
+              //  employeesList = employeesRepository.findAllBySalaryEqualsAndSalaryGreaterThan(salary, BigDecimal.valueOf(8000));
+                model.addAttribute("msg", null);
+                model.addAttribute("employeesList", employeesRepository.listaEmpleadosMaxSalarioEncs(salary));
+
+            }catch (NumberFormatException e){
+               // employeesList = employeesRepository.findAllBySalaryGreaterThan(BigDecimal.valueOf(8000));
                 model.addAttribute("msg", "El valor ingresado debe ser un numero");
+                model.addAttribute("employeesList", employeesRepository.listaEmpleadosMaxSalario());
 
             }
-
-
         }
 
-        model.addAttribute("employeesList", employeesList);
 
         return "Search/lista2";
     }

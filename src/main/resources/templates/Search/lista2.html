@@ -14,46 +14,37 @@
 
     <!-- BUSCADOR -->
     <form class="row" method="post" th:action="@{/Search/busqueda}">
+        <div class="container-md">
+            <div class="input-group mb-2">
+                <input name="searchField" class="input-search-bar" placeholder="Salario a buscar...">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+                <a class="btn btn-outline-danger" th:href="@{'/Search/Salario'}">Limpiar</a>
+                <a class="btn btn-outline-secondary" th:href="@{'/Search'}">Regresar</a>
 
-        <div class="col-8">
-            <input name="searchField" class="input-search-bar" placeholder="Salario a buscar...">
+            </div>
         </div>
-
-        <div class="col-2">
-            <button type="submit" class="btn btn-warning">Buscar</button>
-        </div>
-
-         <div class="col-2">
-             <a class="btn btn-outline-secondary" th:href="@{'/Search/Salario'}">Limpiar</a>
-         </div>
-
-        <div class="col-2">
-            <a class="btn btn-outline-secondary" th:href="@{'/Search'}">Regresar</a>
-        </div>
-
     </form>
-    <h1 th:if="${msg} != null" th:text="${msg}"></h1>
+
+    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
 
     <!-- COMPLETAR -->
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
+                <th scope="col">Nombre</th>
                 <th scope="col">Fecha de Inicio</th>
                 <th scope="col">Fecha Fin</th>
                 <th scope="col">Puesto</th>
             </tr>
         </thead>
         <tbody>
-        <tr th:each="employee, vEst : ${employeesList}">
-
-            <th scope="row" th:text="${vEst.index}"></th>
-            <td th:text="${employee.getFirstname()}"></td>
-            <td th:text="${employee.getLastname()}"></td>
-            <td th:text="${employee.getHiredate()}"></td>
-            <td th:text="${employee.getJobs().getJobtitle()}"></td>
-
+        <tr th:each="employee : ${employeesList}">
+            <td th:text="${employee.getLast_name()}"></td>
+            <td th:text="${employee.getFirst_name()}"></td>
+            <td th:text="${employee.getStart_date()}"></td>
+            <td th:text="${employee.getEnd_date()}"></td>
+            <td th:text="${employee.getJob_title()}"></td>
         </tr>
         </tbody>
     </table>
